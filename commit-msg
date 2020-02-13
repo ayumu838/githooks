@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+jira = `git branch | grep '*'`.chomp.sub('* ', '').split('-')[0..1].join('-')
+
+commit_msgs = File.readlines(ARGV[0])
+unless commit_msgs.to_s.include?(jira)
+  open(ARGV[0], 'w') do |file|
+    file.print "#{jira} "
+    file.puts commit_msgs
+  end
+end
